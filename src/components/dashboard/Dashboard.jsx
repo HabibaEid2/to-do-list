@@ -7,11 +7,11 @@ export default function Dashboard() {
     let [nameOfCat , setNameOfCat] = useState("Untitled list") ; 
     let ul = useRef() ; 
     let input = useRef() ; 
-
+    
     useEffect(() => {
         setCats([
             <li onClick={choose} className="beforeTask" key={1}>
-                <Link to= {'myDay'}>
+                <Link to= {'my-Day'}>
                     <i style={{color : "gold"}} className="fa-brands fa-angellist"></i>
                     <div className="cat-name">My Day</div>
                     <div className="num">0</div>
@@ -45,7 +45,7 @@ export default function Dashboard() {
         setCats(prev => { 
             return [...prev , 
             <li onClick={choose} key={prev.length + 1}>
-                <Link to={''}>
+                <Link to={`${nameOfCat.split(" ").join("-")}`}>
                     <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
                     <input 
                     onKeyDown={(e) => {

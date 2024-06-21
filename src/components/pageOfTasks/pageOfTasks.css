@@ -1,0 +1,146 @@
+.pageOfTasks {
+    padding: 20px;
+    width: 100%;
+    background-color: #2f3033;
+    color: white;
+    border-radius: 9px 0 0;
+    margin: 27px 0 0 7px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.pageOfTasks h1 {
+    color: rgb(124, 248, 232);
+    width: fit-content;
+    background-color: #252b2c;
+    padding: 10px 10px 10px 30px;
+    margin-left: -20px;
+    border-radius: 0px 6px 6px 0px;
+}
+.pageOfTasks .themes {
+    position: absolute;
+    top: 10px;
+    right:10px ;
+    background-color: #726c6c;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.pageOfTasks .themes button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.pageOfTasks .themes .bodyOfThemes {
+    background-color: var(--main-color);
+    position: absolute;
+    right: 10px;
+    top: 24px;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    gap: 10px;
+    width: 280px;
+    flex-wrap: wrap;
+}
+.pageOfTasks .bodyOfThemes .theme {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(1) {
+    background-color: bisque;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(2) {
+    background-color: #62c6c6;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(3) {
+    background-color: #ffe185;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(4) {
+    background-color: #caff85;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(5) {
+    background-color: #85ffca;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(6) {
+    background-color: #e185ff;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(7) {
+    background-color: #ff85ce;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(8) {
+    background-color: #ff8585;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(9) {
+    background-color: #7cf8e8;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(10) {
+    background-color: #a173ff;
+}
+.pageOfTasks .bodyOfThemes .theme:nth-child(11) {
+    background-color: white;
+}
+.pageOfTasks .theme img{
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+.pageOfTasks .addTask {
+    position: absolute;
+    bottom: 20px;
+    padding: 3px 20px;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #272727db;
+    border-radius: 4px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.pageOfTasks .addTask input {
+    background-color: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 10px 0;
+    outline: none;
+}
+.pageOfTasks input.bisque::placeholder {
+    color: rgba(255, 228, 196, 0.527);
+}
+.pageOfTasks input.H62c6c6::placeholder {
+    color: hsla(180, 47%, 58%, 0.525);
+}
+.pageOfTasks input.Hffe185::placeholder {
+    color: rgba(255, 225, 133, 0.527);
+}
+.pageOfTasks input.Hcaff85::placeholder {
+    color: rgba(202, 255, 133, 0.521);
+}
+.pageOfTasks input.H85ffca::placeholder {
+    color: hsla(154, 100%, 76%, 0.527);
+}
+.pageOfTasks input.He185ff::placeholder {
+    color: hsla(285, 100%, 76%, 0.537);
+}
+.pageOfTasks input.Hff85ce::placeholder {
+    color: rgba(255, 133, 206, 0.523);
+}
+.pageOfTasks input.Hff8585::placeholder {
+    color: hwb(0 52% 0% / 0.527);
+}
+.pageOfTasks input.H7cf8e8::placeholder {
+    color: hsla(172, 90%, 73%, 0.539);
+}
+.pageOfTasks input.Ha173ff::placeholder {
+    color: hsla(260, 100%, 73%, 0.523);
+}
+.pageOfTasks input.Hwhite::placeholder {
+    color: rgba(255, 255, 255, 0.482);
+}

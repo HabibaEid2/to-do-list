@@ -1,15 +1,15 @@
 .dashboard {
-    background-color: #1d1f29;
+    background-color: var(--main-color);
     color: white;
-    position: fixed;
+    position: sticky;
     width: 24%;
-    height: 100%;
+    height: 100vh;
+    padding-top: 10px;
 }
 .dashboard ul {
     padding: 20px 5px;
 }
 .dashboard li{
-    padding: 10px 20px;
     position: relative;
     transition: .2s;
     -webkit-transition: .2s;
@@ -19,6 +19,7 @@
 }
 .dashboard li a {
     display: flex;
+    padding: 10px 20px;
 }
 .dashboard li:hover , .dashboard .create-new-cat:hover{
     background-color: #393737;
