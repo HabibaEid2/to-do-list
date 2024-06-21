@@ -1,0 +1,87 @@
+.dashboard {
+    background-color: #1d1f29;
+    color: white;
+    position: fixed;
+    width: 24%;
+    height: 100%;
+}
+.dashboard ul {
+    padding: 20px 5px;
+}
+.dashboard li{
+    padding: 10px 20px;
+    position: relative;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+}
+.dashboard li a {
+    display: flex;
+}
+.dashboard li:hover , .dashboard .create-new-cat:hover{
+    background-color: #393737;
+    border-radius: 5px;
+}
+.dashboard li.beforeTask {
+    background-color: #393737;
+    border-radius: 5px;
+}
+.dashboard li.beforeTask:after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 40%;
+    background-color: #5b8be3;
+    top: 31%;
+    left: 0;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.dashboard li i {
+    width: 15px;
+    height: 15px;
+    margin-right: 20px;
+}
+.dashboard .num {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    width: 16px;
+    background-color: #585050;
+    font-size: 14px;
+}
+.dashboard .create-new-cat {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    gap: 15px;
+    padding: 10px 20px;
+    width: 100%;
+    border-top: solid 1px #5b5a5a;
+}
+.dashboard button {
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+.dashboard input {
+    color: white;
+    width: 67%;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid 2px #198dcb;
+    outline: none;
+}
