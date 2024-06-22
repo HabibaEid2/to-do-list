@@ -17,6 +17,9 @@
     margin-left: -20px;
     border-radius: 0px 6px 6px 0px;
 }
+.pageOfTasks h1 i {
+    margin-right: 15px;
+}
 .pageOfTasks .themes {
     position: absolute;
     top: 10px;

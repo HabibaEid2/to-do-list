@@ -1,15 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import img1 from './../../images/airbnb1.webp'
 import img2 from './../../images/airbnb2.webp'
 import img3 from './../../images/airbnb3.webp'
 import img4 from './../../images/airbnb4.webp'
 import './pageOfTasks.css'
+import { Cookies } from 'react-cookie'
+import { contextData } from '../../context/context'
 export default function PageOfTasks() {
     let [showThemes , setShowThemes] = useState(false) ; 
     let [theThemeColor , setTheThemeColor] = useState("bisque") ; 
-    let [backgroundImage , setBackgroundImage] = useState(null) ; 
+    let [backgroundImage , setBackgroundImage] = useState(null) ;
+    let title = {}
+    let cookie = new Cookies() ; 
+    let context = useContext(contextData) ; 
+    let address = window.location.href.slice(window.location.href.lastIndexOf("/") + 1).split("-").join(" ") ; 
     let input = useRef() ; 
-    let  address = window.location.href.slice(window.location.href.lastIndexOf("/") + 1) ; 
+
+    for(let i of context.value) {
+        if (i.name === address) {
+            title = {value : i.name , icon : i.icon , color : i.iconColor}
+        }
+    }
     function showThemesF() {
         setShowThemes(!showThemes) ; 
     }
@@ -21,9 +32,13 @@ export default function PageOfTasks() {
     function handleBackground(e) {
         setBackgroundImage(e.target.src)
     }
+
     return (
         <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
-            <h1 style={{color : theThemeColor}}>{address}</h1>
+            <h1 style={{color : theThemeColor}}>
+                <i style={{color : title.color}} className={title.icon}></i>
+                {title.value}
+            </h1>
             <div className="themes">
                 <button onClick={showThemesF}>. . .</button>
                 <div style={showThemes ? {display : "flex"} : {display : "none"}} className="bodyOfThemes">
