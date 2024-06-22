@@ -4,21 +4,23 @@ import img2 from './../../images/airbnb2.webp'
 import img3 from './../../images/airbnb3.webp'
 import img4 from './../../images/airbnb4.webp'
 import './pageOfTasks.css'
-import { Cookies } from 'react-cookie'
 import { contextData } from '../../context/context'
-export default function PageOfTasks() {
+export default function PageOfTasks(props) {
     let [showThemes , setShowThemes] = useState(false) ; 
     let [theThemeColor , setTheThemeColor] = useState("bisque") ; 
     let [backgroundImage , setBackgroundImage] = useState(null) ;
     let title = {}
-    let cookie = new Cookies() ; 
     let context = useContext(contextData) ; 
-    let address = window.location.href.slice(window.location.href.lastIndexOf("/") + 1).split("-").join(" ") ; 
     let input = useRef() ; 
 
     for(let i of context.value) {
-        if (i.name === address) {
-            title = {value : i.name , icon : i.icon , color : i.iconColor}
+        if (i.name === props.page) {
+            title = {
+                id : i.id , 
+                value : i.name ,
+                icon : i.icon ,
+                color : i.iconColor
+            }
         }
     }
     function showThemesF() {
@@ -32,7 +34,21 @@ export default function PageOfTasks() {
     function handleBackground(e) {
         setBackgroundImage(e.target.src)
     }
-
+    function rmeoveTheList() {
+        for(let i of context.value) {
+            if(i.id === title.id) {
+                context.setValue(prev => {
+                    prev.splice(i.id-1 , 1)
+                })
+                localStorage.setItem("catsATasks" , JSON.stringify(() => {
+                    let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
+                    arr.splice(i.id -1 , 1) ; 
+                    return arr ; 
+                }
+                ))
+            }
+        }
+    }
     return (
         <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
             <h1 style={{color : theThemeColor}}>
@@ -41,30 +57,39 @@ export default function PageOfTasks() {
             </h1>
             <div className="themes">
                 <button onClick={showThemesF}>. . .</button>
-                <div style={showThemes ? {display : "flex"} : {display : "none"}} className="bodyOfThemes">
-                    <div onClick={() => setTheThemeColor("bisque")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#62c6c6")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#ffe185")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#caff85")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#85ffca")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#e185ff")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#ff85ce")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#ff8585")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#7cf8e8")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("#a173ff")} className="theme"></div>
-                    <div onClick={() => setTheThemeColor("white")} className="theme"></div>
-                    <div onClick={handleBackground} className="theme">
-                        <img src={img1} alt="img1" />
+                <div style={showThemes ? {display : "block"} : {display : "none"}} className="bodyOfThemes">
+                    <div>
+                        <div onClick={() => setTheThemeColor("bisque")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#62c6c6")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#ffe185")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#caff85")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#85ffca")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#e185ff")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#ff85ce")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#ff8585")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#7cf8e8")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("#a173ff")} className="theme"></div>
+                        <div onClick={() => setTheThemeColor("white")} className="theme"></div>
+                        <div onClick={handleBackground} className="theme">
+                            <img src={img1} alt="img1" />
+                        </div>
+                        <div onClick={handleBackground} className="theme">
+                            <img src={img2} alt="img2" />
+                        </div>
+                        <div onClick={handleBackground}className="theme">
+                            <img src={img3} alt="img3" />
+                        </div>
+                        <div onClick={handleBackground} className="theme">
+                            <img src={img4} alt="img4" />
+                        </div>
                     </div>
-                    <div onClick={handleBackground} className="theme">
-                        <img src={img2} alt="img2" />
-                    </div>
-                    <div onClick={handleBackground}className="theme">
-                        <img src={img3} alt="img3" />
-                    </div>
-                    <div onClick={handleBackground} className="theme">
-                        <img src={img4} alt="img4" />
-                    </div>
+
+                    {/* remove the list */}
+
+                    <button onClick={rmeoveTheList}>
+                        <i class="fa-solid fa-circle-minus"></i>
+                        remove
+                    </button>
                 </div>
             </div>
             <div className="addTask">

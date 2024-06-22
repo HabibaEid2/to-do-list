@@ -85,4 +85,5 @@
     border: none;
     border-bottom: solid 2px #198dcb;
     outline: none;
+    cursor: pointer;
 }
