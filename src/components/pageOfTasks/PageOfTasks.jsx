@@ -5,15 +5,26 @@ import img3 from './../../images/airbnb3.webp'
 import img4 from './../../images/airbnb4.webp'
 import './pageOfTasks.css'
 import { contextData } from '../../context/context'
+import { useNavigate } from 'react-router-dom'
+
 export default function PageOfTasks(props) {
+    // states
     let [showThemes , setShowThemes] = useState(false) ; 
     let [theThemeColor , setTheThemeColor] = useState("bisque") ; 
     let [backgroundImage , setBackgroundImage] = useState(null) ;
-    let title = {}
+
     let context = useContext(contextData) ; 
     let input = useRef() ; 
+    let go = useNavigate() ; 
 
-    for(let i of context.value) {
+    //normal variables
+    let title = {}
+    let themesColors = ['bisque' ,'#62c6c6', '#ffe185', '#caff85', '#85ffca', '#e185ff', '#ff85ce', '#ff8585', '#7cf8e8', '#a173ff', 'white']
+    let themesArr = [] ; 
+    for(let i of themesColors) {
+        themesArr.push(<div onClick={() => setTheThemeColor(`${i}`)} className="theme"></div>) ; 
+    }
+    for(let i of context.value.data) {
         if (i.name === props.page) {
             title = {
                 id : i.id , 
@@ -34,20 +45,23 @@ export default function PageOfTasks(props) {
     function handleBackground(e) {
         setBackgroundImage(e.target.src)
     }
-    function rmeoveTheList() {
-        for(let i of context.value) {
+    function removeTheList() {
+        for(let i of context.value.data) {
             if(i.id === title.id) {
                 context.setValue(prev => {
-                    prev.splice(i.id-1 , 1)
+                    prev.data.splice(i.id-1 , 1) ; 
+                    return {data : prev.data , remove : true} ; 
                 })
-                localStorage.setItem("catsATasks" , JSON.stringify(() => {
-                    let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
-                    arr.splice(i.id -1 , 1) ; 
-                    return arr ; 
-                }
-                ))
+                let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
+                arr.splice(i.id-1 , 1)
+                localStorage.setItem("catsATasks" , JSON.stringify(arr))
             }
         }
+        go(`/${context.value.data[context.value.data.length -1].name.split(" ").join("-")}`) ; 
+    }
+
+    function addTheTask() {
+        
     }
     return (
         <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
@@ -59,17 +73,7 @@ export default function PageOfTasks(props) {
                 <button onClick={showThemesF}>. . .</button>
                 <div style={showThemes ? {display : "block"} : {display : "none"}} className="bodyOfThemes">
                     <div>
-                        <div onClick={() => setTheThemeColor("bisque")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#62c6c6")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#ffe185")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#caff85")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#85ffca")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#e185ff")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#ff85ce")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#ff8585")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#7cf8e8")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("#a173ff")} className="theme"></div>
-                        <div onClick={() => setTheThemeColor("white")} className="theme"></div>
+                        {themesArr}
                         <div onClick={handleBackground} className="theme">
                             <img src={img1} alt="img1" />
                         </div>
@@ -86,15 +90,14 @@ export default function PageOfTasks(props) {
 
                     {/* remove the list */}
 
-                    <button onClick={rmeoveTheList}>
-                        <i class="fa-solid fa-circle-minus"></i>
-                        remove
+                    <button onClick={removeTheList}>
+                        <i class="fa-solid fa-circle-minus"></i>remove
                     </button>
                 </div>
             </div>
             <div className="addTask">
                 <label htmlFor="addTask">
-                    <i style={{color : theThemeColor}} className='fa-solid fa-plus'></i>
+                    <i onClick={addTheTask} style={{color : theThemeColor}} className='fa-solid fa-plus'></i>
                 </label>
                 <input ref={input} style={{color : theThemeColor}} className={`H${theThemeColor.slice(1)}`} type="text" id = "addTask" placeholder='add a task'/>
             </div>

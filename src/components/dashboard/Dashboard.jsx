@@ -22,20 +22,42 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (showDefaultCats) {
-            for(let i of context.value) {
-                setCats(prev => [...prev , 
-                <li onClick={choose} className = {i.id === 1 ? "beforeTask" : ""} key={i.id}>
-                    <Link to= {i.name.split(" ").join("-")}>
-                        <i style={{color : i.iconColor}} className= {i.icon}></i>
-                        <div className="cat-name">{i.name}</div>
-                        <div className="num">{i.tasks.length}</div>
-                    </Link>
-                </li>])
+            for(let i of context.value.data) {
+                setCats(prev =>{
+                    return [...prev , 
+                    <li onClick={choose} className = {i.id === 1 ? "beforeTask" : ""} key={i.id}>
+                        <Link to= {i.name.split(" ").join("-")}>
+                            <i style={{color : i.iconColor}} className= {i.icon}></i>
+                            <div className="cat-name">{i.name}</div>
+                            <div className="num">{i.tasks.length}</div>
+                        </Link>
+                    </li>]
+                })
             }
         }
         showDefaultCats = false ; 
     } , [])
 
+    useEffect(() => {
+        if (context.value.remove) {
+            setCats([]) ; 
+            for(let i of context.value.data) {
+                setCats(prev =>{
+                    return [...prev , 
+                    <li onClick={choose} className = {i.id === 1 ? "beforeTask" : ""} key={i.id}>
+                        <Link to= {i.name.split(" ").join("-")}>
+                            <i style={{color : i.iconColor}} className= {i.icon}></i>
+                            <div className="cat-name">{i.name}</div>
+                            <div className="num">{i.tasks.length}</div>
+                        </Link>
+                    </li>]
+                })
+            }
+        context.setValue(prev => {
+            return {...prev , remove : false}
+        })
+        }
+    })
     function addNewCat(bool) {
         if(!bool) {
             setCats(prev => { 
@@ -46,13 +68,15 @@ export default function Dashboard() {
                         <input 
                         onKeyDown={(e) => {
                             if(e.code === "Enter"){
-                                context.setValue(prev => [...prev, {
-                                    id : prev.length + 1 , 
+                                context.setValue(prev => {
+                                    return {data : [...prev.data, {
+                                    id : prev.data.length + 1 , 
                                     name : `${e.target.value}` , 
                                     icon : "fa-solid fa-list-check" , 
                                     iconColor : "rgb(203 211 178)" ,
                                     tasks : []
-                                    }])
+                                    }] , remove : false}
+                                })
                                 localStorage.setItem("catsATasks" , JSON.stringify(
                                     [...JSON.parse(localStorage.getItem("catsATasks")) , {
                                         id : prev.length + 1 , 
@@ -62,7 +86,6 @@ export default function Dashboard() {
                                         tasks : []
                                         }]
                                 )) ;
-                                console.log(context)
                                 catName = e.target.value ; 
                                 addNewCat(true) ; 
                             }
@@ -82,7 +105,7 @@ export default function Dashboard() {
                     <Link to = {catName.split(" ").join("-")}>
                         <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
                         <div>{catName}</div>
-                        <div className="num">{context.value[context.value.length -1].tasks.length}</div>
+                        <div className="num">{context.value.data[context.value.data.length -1].tasks.length}</div>
                     </Link>
                 </li>)
                 return prev ; 

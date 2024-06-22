@@ -37,6 +37,6 @@ export default function Context({children}) {
     else {
         storageData = JSON.parse(localStorage.getItem("catsATasks")) ; 
     }
-    let [value , setValue] = useState(storageData) ; 
+    let [value , setValue] = useState({data : storageData , remove : false}) ; 
     return <contextData.Provider value={{value , setValue}}>{children}</contextData.Provider>
 }
