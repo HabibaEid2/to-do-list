@@ -1,27 +1,33 @@
 {
   "files": {
-    "main.css": "/to-do-list/static/css/main.ce107ab9.css",
-    "main.js": "/to-do-list/static/js/main.7fdbcb66.js",
+    "main.css": "/to-do-list/static/css/main.bb503e16.css",
+    "main.js": "/to-do-list/static/js/main.cf0a96e7.js",
     "static/js/453.77fdcceb.chunk.js": "/to-do-list/static/js/453.77fdcceb.chunk.js",
+    "static/media/stars-background.jpeg": "/to-do-list/static/media/stars-background.76f03143201947ff2928.jpeg",
     "static/media/fa-solid-900.ttf": "/to-do-list/static/media/fa-solid-900.45a265d0f07b31cde85f.ttf",
+    "static/media/background8.webp": "/to-do-list/static/media/background8.9ab8a85071bbed8108eb.webp",
+    "static/media/background6.webp": "/to-do-list/static/media/background6.37feaddf6055b5aad37c.webp",
     "static/media/fa-brands-400.ttf": "/to-do-list/static/media/fa-brands-400.6205fd00fb1b573e9f0f.ttf",
     "static/media/fa-solid-900.woff2": "/to-do-list/static/media/fa-solid-900.fb8184add5a3101ad0a3.woff2",
     "static/media/fa-brands-400.woff2": "/to-do-list/static/media/fa-brands-400.8d3cabfc66809162fb4d.woff2",
+    "static/media/background3.webp": "/to-do-list/static/media/background3.5e4cc53f7c9084d92967.webp",
     "static/media/fa-regular-400.ttf": "/to-do-list/static/media/fa-regular-400.adc51aab4d771ab65f81.ttf",
-    "static/media/airbnb4.webp": "/to-do-list/static/media/airbnb4.b00ad930c866f42262d4.webp",
-    "static/media/airbnb2.webp": "/to-do-list/static/media/airbnb2.5c124b518c58304b271e.webp",
-    "static/media/airbnb1.webp": "/to-do-list/static/media/airbnb1.794ba4f2143348139b86.webp",
-    "static/media/airbnb3.webp": "/to-do-list/static/media/airbnb3.574de7d553aa206ba9fa.webp",
+    "static/media/background2.webp": "/to-do-list/static/media/background2.d71a2378ce25733d1240.webp",
+    "static/media/background7.webp": "/to-do-list/static/media/background7.3f65dee22927aabb6c7d.webp",
+    "static/media/calender-img.png": "/to-do-list/static/media/calender-img.327a1f6b260e2437057f.png",
+    "static/media/background5.webp": "/to-do-list/static/media/background5.62b9a2a4ddb022681615.webp",
     "static/media/fa-regular-400.woff2": "/to-do-list/static/media/fa-regular-400.e931bc0d14f5bbb1da22.woff2",
+    "static/media/background4.webp": "/to-do-list/static/media/background4.26b3094d1354214166f9.webp",
+    "static/media/remove-icon.png": "/to-do-list/static/media/remove-icon.5cc943d27eb3ed685271.png",
     "static/media/fa-v4compatibility.ttf": "/to-do-list/static/media/fa-v4compatibility.2eb7b3ef25042305f3ff.ttf",
     "static/media/fa-v4compatibility.woff2": "/to-do-list/static/media/fa-v4compatibility.b3049b13a93f07e026fc.woff2",
     "index.html": "/to-do-list/index.html",
-    "main.ce107ab9.css.map": "/to-do-list/static/css/main.ce107ab9.css.map",
-    "main.7fdbcb66.js.map": "/to-do-list/static/js/main.7fdbcb66.js.map",
+    "main.bb503e16.css.map": "/to-do-list/static/css/main.bb503e16.css.map",
+    "main.cf0a96e7.js.map": "/to-do-list/static/js/main.cf0a96e7.js.map",
     "453.77fdcceb.chunk.js.map": "/to-do-list/static/js/453.77fdcceb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ce107ab9.css",
-    "static/js/main.7fdbcb66.js"
+    "static/css/main.bb503e16.css",
+    "static/js/main.cf0a96e7.js"
   ]
 }
