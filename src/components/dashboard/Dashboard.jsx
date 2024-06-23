@@ -6,8 +6,8 @@ import { contextData } from "../../context/context";
 export default function Dashboard() {
 
     // states
-    let [numOfTasks , setNumOfTasks] = useState(0) ; 
     let [cats , setCats] = useState([]) ; 
+    let [showDashBoard , setShowDashBoard] = useState(true) ; 
 
     // refs
     let ul = useRef() ; 
@@ -29,7 +29,6 @@ export default function Dashboard() {
                         <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
-                            <div className="num">{i.tasks.length}</div>
                         </Link>
                     </li>]
                 })
@@ -48,7 +47,6 @@ export default function Dashboard() {
                         <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
-                            <div className="num">{i.tasks.length}</div>
                         </Link>
                     </li>]
                 })
@@ -94,7 +92,6 @@ export default function Dashboard() {
                         autoFocus 
                         defaultValue={'Untitled list'}
                         />
-                        <div className="num">0</div>
                     </Link>
                 </li>]
             })
@@ -126,13 +123,16 @@ export default function Dashboard() {
         }
     }
     return (
-        <div className="dashboard">
+        <div style={{marginLeft : showDashBoard ? "0" : "-237px"}} className="dashboard">
             <ul ref={ul}>
                 {cats}
             </ul>
             <div className="create-new-cat" onClick={() => addNewCat(false)} >
                 <i className="fa-solid fa-plus"></i>
                 <button>New Category</button>
+            </div>
+            <div onClick={() => setShowDashBoard(!showDashBoard)} className="showDashBoard">
+                <i class="fa-solid fa-right-left"></i>
             </div>
         </div>
     )

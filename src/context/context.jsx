@@ -28,9 +28,8 @@ export default function Context({children}) {
         name : "Groceries" , 
         icon : "fa-solid fa-basket-shopping" , 
         iconColor : "rgb(102 148 224)" , 
-        tasks : []
-    }
-    ]
+        tasks : [] 
+    }]
     if (!localStorage.getItem("catsATasks")) {
         localStorage.setItem("catsATasks" , JSON.stringify(storageData))
     }

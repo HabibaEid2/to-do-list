@@ -12,7 +12,7 @@
 .pageOfTasks h1 {
     color: rgb(124, 248, 232);
     width: fit-content;
-    background-color: #252b2c;
+    background-color: #252b2c82;
     padding: 10px 10px 10px 30px;
     margin-left: -20px;
     border-radius: 0px 6px 6px 0px;
@@ -35,7 +35,7 @@
     background-color: transparent;
     border: none;
     color: white;
-    padding: 0 10px;
+    padding: 5px;
     cursor: pointer;
 }
 .pageOfTasks .themes .bodyOfThemes {
@@ -56,49 +56,18 @@
     width: 35px;
     height: 35px;
     cursor: pointer;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(1) {
-    background-color: bisque;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(2) {
-    background-color: #62c6c6;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(3) {
-    background-color: #ffe185;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(4) {
-    background-color: #caff85;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(5) {
-    background-color: #85ffca;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(6) {
-    background-color: #e185ff;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(7) {
-    background-color: #ff85ce;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(8) {
-    background-color: #ff8585;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(9) {
-    background-color: #7cf8e8;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(10) {
-    background-color: #a173ff;
-}
-.pageOfTasks .bodyOfThemes .theme:nth-child(11) {
-    background-color: white;
+    border: solid 1px white;
 }
 .pageOfTasks .theme img{
     width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
 }
 .pageOfTasks .bodyOfThemes button {
     background-color: #a31313;
     padding: 5px 10px;
     border-radius: 3px;
+    margin-top: 15px;
 }
 .pageOfTasks .bodyOfThemes button i {
     margin-right: 5px;
@@ -156,4 +125,58 @@
 }
 .pageOfTasks input.Hwhite::placeholder {
     color: rgba(255, 255, 255, 0.482);
+}
+
+
+/* task */
+
+.pageOfTasks .tasks {
+    margin: 20px 0;
+}
+.pageOfTasks .task {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #41404085;
+    margin: 3px;
+    border-radius: 5px;
+    transition: .4s;
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+    -ms-transition: .4s;
+    -o-transition: .4s;
+}
+.pageOfTasks .task:hover {
+    color: white;
+    background-color: #2c2b2bcc;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.pageOfTasks .task > div {
+    display: flex;
+    gap: 10px;
+}
+.pageOfTasks .task > i {
+    color: #a31313;
+}
+.pageOfTasks .calender-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    -webkit-transform: translate(-50% , -50%);
+    -moz-transform: translate(-50% , -50%);
+    -ms-transform: translate(-50% , -50%);
+    -o-transform: translate(-50% , -50%);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    background-color: rgba(29, 31, 41, 0.61);
+    padding: 20px;
+}
+.pageOfTasks .calender-img img {
+    width: 120px;
 }
