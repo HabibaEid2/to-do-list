@@ -19,13 +19,13 @@ export default function Dashboard() {
     // normal variables
     let showDefaultCats = true ; 
     let catName = "Untitled list"
-
+    let address = window.location.pathname.slice(1).split("-").join(" ")
     useEffect(() => {
         if (showDefaultCats) {
             for(let i of context.value.data) {
                 setCats(prev =>{
                     return [...prev , 
-                    <li onClick={choose} className = {i.id === 1 ? "beforeTask" : ""} key={i.id}>
+                    <li onClick={choose} className = {i.name === address ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
                         <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
@@ -43,8 +43,8 @@ export default function Dashboard() {
             for(let i of context.value.data) {
                 setCats(prev =>{
                     return [...prev , 
-                    <li onClick={choose} className = {i.id === 1 ? "beforeTask" : ""} key={i.id}>
-                        <Link to= {i.name.split(" ").join("-")}>
+                    <li onClick={choose} className = {i.name === address ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
+                        <Link to= {`/to-do-list/${i.name.split(" ").join("-")}`}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
                         </Link>
@@ -68,7 +68,6 @@ export default function Dashboard() {
                             if(e.code === "Enter"){
                                 context.setValue(prev => {
                                     return {data : [...prev.data, {
-                                    id : prev.data.length + 1 , 
                                     name : `${e.target.value}` , 
                                     icon : "fa-solid fa-list-check" , 
                                     iconColor : "rgb(203 211 178)" ,
@@ -77,7 +76,6 @@ export default function Dashboard() {
                                 })
                                 localStorage.setItem("catsATasks" , JSON.stringify(
                                     [...JSON.parse(localStorage.getItem("catsATasks")) , {
-                                        id : prev.length + 1 , 
                                         name : `${e.target.value}` , 
                                         icon : "fa-solid fa-list-check" , 
                                         iconColor : "rgb(203 211 178)" ,
@@ -99,10 +97,9 @@ export default function Dashboard() {
         else {
             setCats(prev => { 
                 prev.splice(prev.length -1 , 1 , <li onClick={choose} key={prev.length + 1}>
-                    <Link to = {catName.split(" ").join("-")}>
+                    <Link to = {`/to-do-list/${catName.split(" ").join("-")}`}>
                         <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
                         <div>{catName}</div>
-                        <div className="num">{context.value.data[context.value.data.length -1].tasks.length}</div>
                     </Link>
                 </li>)
                 return prev ; 

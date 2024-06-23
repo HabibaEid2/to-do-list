@@ -8,12 +8,15 @@ import { contextData } from './context/context';
 function App() {
   let routesA = [] ; 
   let context = useContext(contextData) ; 
+
     for(let i of context.value.data) {
-      if(i.id === 1) {
-        routesA.push(<Route key={-1} path={''} element = {<PageOfTasks page = {i.name}/>}></Route>)
+      if(context.value.data.indexOf(i) === 0) {
+        routesA.push(<Route key={-1} path={'to-do-list'} element = {<PageOfTasks page = {i.name}/>}></Route>)
       }
       routesA.push(<Route key={context.value.data.indexOf(i)} path={i.name.split(" ").join("-")} element = {<PageOfTasks page = {i.name}/>}></Route>)
     }
+  console.log(routesA)
+
   return (
   <div className='parent'>
     <Dashboard/>

@@ -4,9 +4,6 @@ import calendeImg from './../../images/calender-img.png'
 import img1 from './../../images/stars-background.jpeg'
 import img2 from './../../images/background2.webp'
 import img3 from './../../images/background3.webp'
-import img4 from './../../images/background4.webp'
-import img5 from './../../images/background5.webp'
-import img6 from './../../images/background6.webp'
 import img7 from './../../images/background7.webp'
 import img8 from './../../images/background8.webp'
 import './pageOfTasks.css'
@@ -25,7 +22,7 @@ export default function PageOfTasks(props) {
 
     //normal variables
     let title = {}
-    let themesImgs = [img1 , img2 , img3  , img7 ,  img8]
+    let themesImgs = [img1 , img2 , img3 , img7 ,  img8]
     let themesColors = ['bisque' ,'#62c6c6', '#ffe185', '#caff85', '#85ffca', '#e185ff', '#ff85ce', '#ff8585', '#7cf8e8', '#a173ff', 'white' , "black"]
     let themesArr = [] ; 
     let tasks = [] ; 
@@ -54,7 +51,6 @@ export default function PageOfTasks(props) {
     for(let i of context.value.data) {
         if (i.name === props.page) {
             title = {
-                id : i.id , 
                 value : i.name ,
                 icon : i.icon ,
                 color : i.iconColor
@@ -73,18 +69,21 @@ export default function PageOfTasks(props) {
         setBackgroundImage(e.target.src)
     }
     function removeTheList() {
-        for(let i of context.value.data) {
-            if(i.id === title.id) {
+        mainLoop:for(let i of context.value.data) {
+            if(i.name === title.value) {
                 context.setValue(prev => {
-                    prev.data.splice(i.id-1 , 1) ; 
+                    prev.data.splice(context.value.data.indexOf(i) , 1) ; 
                     return {data : prev.data , remove : true} ; 
                 })
                 let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
-                arr.splice(i.id-1 , 1)
-                localStorage.setItem("catsATasks" , JSON.stringify(arr))
+                console.log(context.value.data.indexOf(i))
+
+                arr.splice(context.value.data.indexOf(i) , 1)
+                localStorage.setItem("catsATasks" , JSON.stringify(arr)) ; 
+                break mainLoop ; 
             }
         }
-        go(`/${context.value.data[context.value.data.length -1].name.split(" ").join("-")}`) ; 
+        go(`/${context.value.data[context.value.data.length -2] ? context.value.data[context.value.data.length -2].name.split(" ").join("-") :  "to-do-list"}`) ; 
     }
 
     function addTheTask() {
@@ -150,21 +149,6 @@ export default function PageOfTasks(props) {
                 <div style={showThemes ? {display : "block"} : {display : "none"}} className="bodyOfThemes">
                     <div>
                         {themesArr}
-                        {/* <div onClick={handleBackground} className="theme">
-                            <img src={img1} alt="img1" />
-                        </div>
-                        <div onClick={handleBackground} className="theme">
-                            <img src={img2} alt="img2" />
-                        </div>
-                        <div onClick={handleBackground}className="theme">
-                            <img src={img3} alt="img3" />
-                        </div>
-                        <div onClick={handleBackground} className="theme">
-                            <img src={img4} alt="img4" />
-                        </div>
-                        <div onClick={handleBackground} className="theme">
-                            <img src="https://images.pexels.com/photos/573298/pexels-photo-573298.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
-                        </div> */}
                     </div>
 
                     {/* remove the list */}
