@@ -19,14 +19,16 @@ export default function Dashboard() {
     // normal variables
     let showDefaultCats = true ; 
     let catName = "Untitled list"
-    let address = window.location.pathname.slice(1).split("-").join(" ")
+    let address = window.location.pathname.slice(1).split("-").join(" ") ; 
+
+    // useEffects
     useEffect(() => {
         if (showDefaultCats) {
             for(let i of context.value.data) {
                 setCats(prev =>{
                     return [...prev , 
                     <li onClick={choose} className = {i.name === address || (context.value.data.indexOf(i) === 0 &&address === "to do list") ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
-                        <Link to= {`to-do-list/${i.name.split(" ").join("-")}`}>
+                        <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
                         </Link>
@@ -36,26 +38,29 @@ export default function Dashboard() {
         }
         showDefaultCats = false ; 
     } , [])
-
+    
+    // for loops and if functions
     useEffect(() => {
         if (context.value.remove) {
             setCats([]) ; 
             for(let i of context.value.data) {
                 setCats(prev =>{
                     return [...prev , 
-                    <li onClick={choose} className = {i.name === address ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
-                        <Link to= {`to-do-list/${i.name.split(" ").join("-")}`}>
+                    <li onClick={choose} className = {i.name === address ||(context.value.data.indexOf(i) === 0 &&address === "to do list")  ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
+                        <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
                         </Link>
                     </li>]
                 })
             }
-        context.setValue(prev => {
-            return {...prev , remove : false}
-        })
+            context.setValue(prev => {
+                return {...prev , remove : false} ; 
+            }) ; 
         }
     })
+
+    // functions
     function addNewCat(bool) {
         if(!bool) {
             setCats(prev => { 
@@ -97,7 +102,7 @@ export default function Dashboard() {
         else {
             setCats(prev => { 
                 prev.splice(prev.length -1 , 1 , <li onClick={choose} key={prev.length + 1}>
-                    <Link to = {`to-do-list/${catName.split(" ").join("-")}`}>
+                    <Link to = {catName.split(" ").join("-")}>
                         <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
                         <div>{catName}</div>
                     </Link>
@@ -129,7 +134,7 @@ export default function Dashboard() {
                 <button>New Category</button>
             </div>
             <div onClick={() => setShowDashBoard(!showDashBoard)} className="showDashBoard">
-                <i class="fa-solid fa-right-left"></i>
+                <i className="fa-solid fa-right-left"></i>
             </div>
         </div>
     )

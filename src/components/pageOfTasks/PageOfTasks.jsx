@@ -6,84 +6,88 @@ import img2 from './../../images/background2.webp'
 import img3 from './../../images/background3.webp'
 import img7 from './../../images/background7.webp'
 import img8 from './../../images/background8.webp'
+import img9 from './../../images/background9.webp'
+import img10 from './../../images/background10.webp'
+import warningImg from './../../images/warning.png'
 import './pageOfTasks.css'
 import { contextData } from '../../context/context'
 import { useNavigate } from 'react-router-dom'
+import { Alert } from 'react-bootstrap'
 
 export default function PageOfTasks(props) {
     // states
     let [showThemes , setShowThemes] = useState(false) ; 
     let [theThemeColor , setTheThemeColor] = useState("bisque") ; 
     let [backgroundImage , setBackgroundImage] = useState(null) ;
-    let [returnP , setReturnP] = useState(false)
+    let [returnP , setReturnP] = useState(false) ; 
+    let [showAlert , setShowAlert] = useState(false) ; 
+
     let context = useContext(contextData) ; 
     let input = useRef() ;
     let go = useNavigate() ; 
 
     //normal variables
     let title = {}
-    let themesImgs = [img1 , img2 , img3 , img7 ,  img8]
+    let themesImgs = [img1 , img2 , img3 ,  img8 , img9 , img10]
     let themesColors = ['bisque' ,'#62c6c6', '#ffe185', '#caff85', '#85ffca', '#e185ff', '#ff85ce', '#ff8585', '#7cf8e8', '#a173ff', 'white' , "black"]
     let themesArr = [] ; 
     let tasks = [] ; 
 
+    // loops and if conditions
+    
         for(let i of context.value.data) {
             if(i.name === props.page){
                 for(let j of i.tasks) {
                         tasks.push(
                         <div style={{color : theThemeColor}} className="task">
                             <div>
-                                <i onClick={doTask} className={j.done ? "fa-solid fa-circle-check" : "fa-regular fa-circle-check"}></i>
+                                <i style={{cursor : "pointer"}} onClick={doTask} className={j.done ? "fa-solid fa-circle-check" : "fa-regular fa-circle-check"}></i>
                                 <div style={j.done ? {textDecoration : "line-through"} : {textDecoration : "none"}} className="taskContent">{j.value}</div>
                             </div>
-                            <img onClick={removeTask} style={{width : "15px" , height : '15px'}} src={removeIcon} alt='remove task'/>
+                            <img onClick={removeTask} style={{width : "15px" , height : '15px' , cursor : "pointer"}} src={removeIcon} alt='remove task'/>
                         </div>); 
+                }
+                title = {
+                    value : i.name ,
+                    icon : i.icon ,
+                    color : i.iconColor
                 }
             }
         }
     
+    
     for(let i of themesColors) {
-        themesArr.push(<div style={{backgroundColor : i}} onClick={() => setTheThemeColor(`${i}`)} className="theme"></div>) ; 
+        themesArr.push(<div key={themesArr.length} style={{backgroundColor : i}} onClick={() => setTheThemeColor(`${i}`)} className="theme"></div>) ; 
     }
     for(let i of themesImgs) {
-        themesArr.push(<div onClick={handleBackground} className="theme"><img src={i} alt="img4" /></div>)
+        themesArr.push(<div key={themesArr.length} onClick={(e) => setBackgroundImage(e.target.src)} className="theme"><img src={i} alt="img4" /></div>)
     }
-    for(let i of context.value.data) {
-        if (i.name === props.page) {
-            title = {
-                value : i.name ,
-                icon : i.icon ,
-                color : i.iconColor
-            }
-        }
+    if (input.current) {
+        input.current.style.color = theThemeColor ; 
     }
-    function showThemesF() {
-        setShowThemes(!showThemes) ; 
-    }
-    useEffect(() => {
-        if (input.current) {
-            input.current.style.color = theThemeColor ; 
-        }
-    })
-    function handleBackground(e) {
-        setBackgroundImage(e.target.src)
-    }
-    function removeTheList() {
-        mainLoop:for(let i of context.value.data) {
-            if(i.name === title.value) {
-                context.setValue(prev => {
-                    prev.data.splice(context.value.data.indexOf(i) , 1) ; 
-                    return {data : prev.data , remove : true} ; 
-                })
-                let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
-                console.log(context.value.data.indexOf(i))
 
-                arr.splice(context.value.data.indexOf(i) , 1)
-                localStorage.setItem("catsATasks" , JSON.stringify(arr)) ; 
-                break mainLoop ; 
+    // functions
+    function removeTheList() {
+        if (context.value.data.length > 1) {
+            let index ; 
+            for(let i of context.value.data) {
+                if(i.name === title.value) {
+                    index = context.value.data.indexOf(i) ; 
+                    context.setValue(prev => {
+                        console.log("previous value : " , prev.data) ;
+                        prev.data.splice(index , 1) ; 
+                        console.log("next value : " , prev.data)
+                        return {data : prev.data , remove : true} ; 
+                    })
+                    let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
+                    arr.splice(index , 1)
+                    localStorage.setItem("catsATasks" , JSON.stringify(arr)) ; 
+                    title.value = context.value.data[index > 0 ? index -1 : index].name ; 
+                    go(`/${context.value.data[index > 0 ? index -1 : index].name.split(" ").join("-") }`) ; 
+                }
             }
         }
-        go(`/${context.value.data[context.value.data.length -2] ? context.value.data[context.value.data.length -2].name.split(" ").join("-") :  "to-do-list"}`) ; 
+        else setShowAlert(true) ; 
     }
 
     function addTheTask() {
@@ -106,9 +110,7 @@ export default function PageOfTasks(props) {
                 if (i.name === props.page) {
                     for(let j of i.tasks) {
                         if (j.value === value) {
-                            console.log("yes removed")
                             index = i.tasks.indexOf(j) ; 
-                            console.log(index)
                         }
                     }
                     i.tasks.splice(index , 1)
@@ -138,21 +140,22 @@ export default function PageOfTasks(props) {
     }
     return (
         <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
+            <Alert onClick={() => setShowAlert(false)} style={{top : showAlert ? "20px" : "-150px"}} variant={"danger"}>
+            can't delete the list if it is the only list exist 
+            <img src={warningImg} alt="warning image" />
+            </Alert>
             <h1 style={{color : theThemeColor}}>
                 <i style={{color : title.color}} className={title.icon}></i>
                 {title.value}
             </h1>
             <div className="themes">
-                <button onClick={showThemesF}>
-                    <i class="fa-solid fa-gear"></i>
+                <button onClick={() => setShowThemes(!showThemes)}>
+                    <i className="fa-solid fa-gear"></i>
                 </button>
                 <div style={showThemes ? {display : "block"} : {display : "none"}} className="bodyOfThemes">
                     <div>
                         {themesArr}
                     </div>
-
-                    {/* remove the list */}
-
                     <button onClick={removeTheList}>
                         <i className="fa-solid fa-circle-minus"></i>remove
                     </button>
@@ -161,12 +164,10 @@ export default function PageOfTasks(props) {
 
             {/* tasks list */}
             <div className="tasks">
-                {tasks.length > 0 ? tasks : 
-                <div className="calender-img">
+                {tasks.length > 0 ? tasks : <div className="calender-img">
                     <img src={calendeImg} alt='calender image'/>
-                </div> 
-                }</div>
-
+                </div>}
+            </div>
             <div className="addTask">
                 <label htmlFor="addTask">
                     <i onClick={addTheTask} style={{color : theThemeColor}} className='fa-solid fa-plus'></i>
