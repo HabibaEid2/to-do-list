@@ -11,7 +11,6 @@ export default function Dashboard() {
 
     // refs
     let ul = useRef() ; 
-    let input = useRef() ; 
 
     // context
     let context = useContext(contextData) ; 
@@ -27,7 +26,7 @@ export default function Dashboard() {
             for(let i of context.value.data) {
                 setCats(prev =>{
                     return [...prev , 
-                    <li onClick={choose} className = {i.name === address || (context.value.data.indexOf(i) === 0 &&address === "to do list") ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
+                    <li onClick={choose} className = {i.name === address || (context.value.data.indexOf(i) === 0 &&address === "") ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
                         <Link to= {i.name.split(" ").join("-")}>
                             <i style={{color : i.iconColor}} className= {i.icon}></i>
                             <div className="cat-name">{i.name}</div>
@@ -61,7 +60,11 @@ export default function Dashboard() {
     })
 
     // functions
+
+    // create new list
     function addNewCat(bool) {
+        
+        // bool for fully created or not
         if(!bool) {
             setCats(prev => { 
                 return [...prev , 
@@ -79,19 +82,10 @@ export default function Dashboard() {
                                     tasks : []
                                     }] , remove : false}
                                 })
-                                localStorage.setItem("catsATasks" , JSON.stringify(
-                                    [...JSON.parse(localStorage.getItem("catsATasks")) , {
-                                        name : `${e.target.value}` , 
-                                        icon : "fa-solid fa-list-check" , 
-                                        iconColor : "rgb(203 211 178)" ,
-                                        tasks : []
-                                        }]
-                                )) ;
                                 catName = e.target.value ; 
                                 addNewCat(true) ; 
                             }
-                        }} 
-                        ref={input} 
+                        }}
                         autoFocus 
                         defaultValue={'Untitled list'}
                         />

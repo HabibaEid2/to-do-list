@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 export let contextData = createContext({}) ; 
 export default function Context({children}) {
-    let storageData = [
+    let defaultCats = [
     {
         name : "My Day" , 
         icon : "fa-brands fa-angellist" , 
@@ -26,12 +26,6 @@ export default function Context({children}) {
         iconColor : "rgb(102 148 224)" , 
         tasks : [] 
     }]
-    if (!localStorage.getItem("catsATasks")) {
-        localStorage.setItem("catsATasks" , JSON.stringify(storageData))
-    }
-    else {
-        storageData = JSON.parse(localStorage.getItem("catsATasks")) ; 
-    }
-    let [value , setValue] = useState({data : storageData , remove : false}) ; 
+    let [value , setValue] = useState({data : defaultCats , remove : false}) ; 
     return <contextData.Provider value={{value , setValue}}>{children}</contextData.Provider>
 }

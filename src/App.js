@@ -11,7 +11,7 @@ function App() {
 
     for(let i of context.value.data) {
       if(context.value.data.indexOf(i) === 0) {
-        routesA.push(<Route key={-1} path={'to-do-list'} element = {<PageOfTasks page = {i.name}/>}></Route>)
+        routesA.push(<Route key={-1} path={'/'} element = {<PageOfTasks page = {i.name}/>}></Route>)
       }
       routesA.push(<Route key={context.value.data.indexOf(i)} path={i.name.split(" ").join("-")} element = {<PageOfTasks page = {i.name}/>}></Route>)
     }

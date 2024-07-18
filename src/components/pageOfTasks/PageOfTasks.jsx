@@ -1,18 +1,17 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import removeIcon from './../../images/remove-icon.png'
 import calendeImg from './../../images/calender-img.png'
 import img1 from './../../images/stars-background.jpeg'
 import img2 from './../../images/background2.webp'
 import img3 from './../../images/background3.webp'
-import img7 from './../../images/background7.webp'
 import img8 from './../../images/background8.webp'
 import img9 from './../../images/background9.webp'
 import img10 from './../../images/background10.webp'
 import warningImg from './../../images/warning.png'
-import './pageOfTasks.css'
 import { contextData } from '../../context/context'
 import { useNavigate } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
+import './pageOfTasks.css'
 
 export default function PageOfTasks(props) {
     // states
@@ -35,17 +34,18 @@ export default function PageOfTasks(props) {
 
     // loops and if conditions
     
+    // show tasks of selected list 
         for(let i of context.value.data) {
             if(i.name === props.page){
                 for(let j of i.tasks) {
-                        tasks.push(
-                        <div style={{color : theThemeColor}} className="task">
-                            <div>
-                                <i style={{cursor : "pointer"}} onClick={doTask} className={j.done ? "fa-solid fa-circle-check" : "fa-regular fa-circle-check"}></i>
-                                <div style={j.done ? {textDecoration : "line-through"} : {textDecoration : "none"}} className="taskContent">{j.value}</div>
-                            </div>
-                            <img onClick={removeTask} style={{width : "15px" , height : '15px' , cursor : "pointer"}} src={removeIcon} alt='remove task'/>
-                        </div>); 
+                    tasks.push(
+                    <div style={{color : theThemeColor}} className="task">
+                        <div>
+                            <i style={{cursor : "pointer"}} onClick={doTask} className={j.done ? "fa-solid fa-circle-check" : "fa-regular fa-circle-check"}></i>
+                            <div style={j.done ? {textDecoration : "line-through"} : {textDecoration : "none"}} className="taskContent">{j.value}</div>
+                        </div>
+                        <img onClick={removeTask} style={{width : "15px" , height : '15px' , cursor : "pointer"}} src={removeIcon} alt='remove task'/>
+                    </div>); 
                 }
                 title = {
                     value : i.name ,
@@ -67,6 +67,8 @@ export default function PageOfTasks(props) {
     }
 
     // functions
+
+    // remove a list
     function removeTheList() {
         if (context.value.data.length > 1) {
             let index ; 
@@ -74,14 +76,9 @@ export default function PageOfTasks(props) {
                 if(i.name === title.value) {
                     index = context.value.data.indexOf(i) ; 
                     context.setValue(prev => {
-                        console.log("previous value : " , prev.data) ;
                         prev.data.splice(index , 1) ; 
-                        console.log("next value : " , prev.data)
                         return {data : prev.data , remove : true} ; 
-                    })
-                    let arr = JSON.parse(localStorage.getItem("catsATasks")) ; 
-                    arr.splice(index , 1)
-                    localStorage.setItem("catsATasks" , JSON.stringify(arr)) ; 
+                    }) 
                     title.value = context.value.data[index > 0 ? index -1 : index].name ; 
                     go(`/${context.value.data[index > 0 ? index -1 : index].name.split(" ").join("-") }`) ; 
                 }
@@ -97,7 +94,6 @@ export default function PageOfTasks(props) {
                     i.tasks.push({value : input.current.value , done : false}) ; 
                 } 
             }
-            localStorage.setItem("catsATasks" , JSON.stringify(prev.data))
             setReturnP(!returnP)
             return prev ; 
         })
@@ -116,7 +112,6 @@ export default function PageOfTasks(props) {
                     i.tasks.splice(index , 1)
                 }
             }
-            localStorage.setItem("catsATasks" , JSON.stringify(prev.data))
             return prev ; 
         })
         setReturnP(!returnP)
@@ -133,17 +128,22 @@ export default function PageOfTasks(props) {
                     }
                 }
             }
-            localStorage.setItem("catsATasks" , JSON.stringify(prev.data))
             return prev ; 
         })
         setReturnP(!returnP)
     }
+
     return (
-        <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
-            <Alert onClick={() => setShowAlert(false)} style={{top : showAlert ? "20px" : "-150px"}} variant={"danger"}>
+        <>
+        <Alert onClick={() => setShowAlert(false)} style={{top : showAlert ? "20px" : "-300px"}} variant={"danger"}>
             can't delete the list if it is the only list exist 
-            <img src={warningImg} alt="warning image" />
-            </Alert>
+            <img 
+                style={{marginLeft : "5px"}}
+                src={warningImg} 
+                alt="warning image" />
+        </Alert>
+        
+        <div className="pageOfTasks" style={{backgroundImage : `url(${backgroundImage})`}}>
             <h1 style={{color : theThemeColor}}>
                 <i style={{color : title.color}} className={title.icon}></i>
                 {title.value}
@@ -175,5 +175,6 @@ export default function PageOfTasks(props) {
                 <input ref={input} style={{color : theThemeColor}} className={`H${theThemeColor.slice(1)}`} type="text" id = "addTask" placeholder='add a task'/>
             </div>
         </div>
+        </>
     )
 }

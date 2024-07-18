@@ -110,3 +110,12 @@
     font-size: 13px;
     cursor: pointer;
 }
+
+@media (max-width:767px) {
+    .dashboard {
+        position: fixed;
+    }
+    .dashboard .showDashBoard {
+        right: -13px;
+    }
+}
