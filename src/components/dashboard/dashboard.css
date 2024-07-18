@@ -25,8 +25,9 @@
     -ms-transition: .2s;
     -o-transition: .2s;
 }
-.dashboard li a {
+.dashboard li a , .dashboard .create-cat-div{
     display: flex;
+    align-items: center;
     padding: 10px 20px;
 }
 .dashboard li:hover , .dashboard .create-new-cat:hover{

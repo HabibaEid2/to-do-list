@@ -80,7 +80,9 @@ export default function PageOfTasks(props) {
                         return {data : prev.data , remove : true} ; 
                     }) 
                     title.value = context.value.data[index > 0 ? index -1 : index].name ; 
-                    go(`/${context.value.data[index > 0 ? index -1 : index].name.split(" ").join("-") }`) ; 
+                    console.log("index : " , index) ; 
+                    console.log("place : " , context.value.data[index > 0 ? index -1 : index].name.split(" ").join("-") )
+                    go(`/to-do-list/${context.value.data[index > 0 ? index -1 : index].name.split(" ").join("-") }`) ; 
                 }
             }
         }

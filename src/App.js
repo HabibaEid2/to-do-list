@@ -10,17 +10,17 @@ function App() {
   let context = useContext(contextData) ; 
 
     for(let i of context.value.data) {
-      if(context.value.data.indexOf(i) === 0) {
-        routesA.push(<Route key={-1} path={'/'} element = {<PageOfTasks page = {i.name}/>}></Route>)
-      }
-      routesA.push(<Route key={context.value.data.indexOf(i)} path={i.name.split(" ").join("-")} element = {<PageOfTasks page = {i.name}/>}></Route>)
+      routesA.push(<Route key={context.value.data.indexOf(i)} path={`${i.name.split(" ").join("-")}`} element = {<PageOfTasks page = {i.name}/>}></Route>)
     }
 
   return (
   <div className='parent'>
     <Dashboard/>
     <Routes>
-      {routesA}
+      <Route path={'/to-do-list'}>
+        <Route key={-1} path={'/to-do-list'} element = {<PageOfTasks page = {context.value.data[0].name}/>}/>
+        {routesA}
+      </Route>
     </Routes>
   </div>
   )
