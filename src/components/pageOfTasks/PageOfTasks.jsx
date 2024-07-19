@@ -7,18 +7,17 @@ import img3 from './../../images/background3.webp';
 import img8 from './../../images/background8.webp';
 import img9 from './../../images/background9.webp';
 import img10 from './../../images/background10.webp';
-import warningImg from './../../images/warning.png';
 import { contextData } from '../../context/context';
 import { useNavigate } from 'react-router-dom';
-import { Alert } from 'react-bootstrap';
 import './pageOfTasks.css';
+import { Error } from '../error/Error';
 
 export default function PageOfTasks({ page }) {
     const [showThemes, setShowThemes] = useState(false);
     const [themeColor, setThemeColor] = useState("bisque");
     const [backgroundImage, setBackgroundImage] = useState(null);
     const [returnP, setReturnP] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
+    const [showAlert, setShowAlert] = useState({value : "" , show : false});
 
     const context = useContext(contextData);
     const inputRef = useRef();
@@ -30,6 +29,7 @@ export default function PageOfTasks({ page }) {
     const [title, setTitle] = useState({});
     const [tasks, setTasks] = useState([]);
 
+    // get the tasks of the category
     useEffect(() => {
         const list = context.value.data.find(i => i.name === page);
         if (list) {
@@ -61,25 +61,32 @@ export default function PageOfTasks({ page }) {
             const findIndex = context.value.data.findIndex(i => i.name === title.value)
             const newData = context.value.data.filter(i => i.name !== title.value);
             context.setValue({ data: newData, remove: true });
-            const newPage = newData[findIndex].name;
+            const newPage = newData[findIndex === 0 ? findIndex : findIndex - 1].name;
             navigate(`/to-do-list/${newPage.split(" ").join("-")}`);
         } else {
-            setShowAlert(true);
+            setShowAlert({value : "can't delete the list if it is the only list exist " , bool : true});
         }
     };
 
     const addTask = () => {
         const taskValue = inputRef.current.value;
-        context.setValue(prev => {
-            const newData = prev.data.map(list => {
-                if (list.name === title.value) {
-                    return { ...list, tasks: [...list.tasks, { value: taskValue, done: false }] };
-                }
-                return list;
+
+        // first find the list that its name equal page title 
+        // and then check of names of its tasks if they equal to the input value
+        const ifNameExistBefore = context.value.data.filter(list => list.name === title.value)[0].tasks.findIndex(ele => ele.value === taskValue) ; 
+        if (ifNameExistBefore === -1 && taskValue.length >= 1) {
+            context.setValue(prev => {
+                const newData = prev.data.map(list => {
+                    if (list.name === title.value) {
+                        return { ...list, tasks: [...list.tasks, { value: taskValue, done: false }] };
+                    }
+                    return list;
+                });
+                return { ...prev, data: newData };
             });
-            return { ...prev, data: newData };
-        });
-        setReturnP(!returnP);
+            setReturnP(!returnP);
+        }
+        else setShowAlert({value : "the task name already exists Or the length less than 1!" , bool : true}) ; 
     };
 
     const removeTask = (taskValue) => {
@@ -111,10 +118,9 @@ export default function PageOfTasks({ page }) {
 
     return (
         <>
-            <Alert onClick={() => setShowAlert(false)} style={{ top: showAlert ? "20px" : "-300px" }} variant={"danger"}>
-                can't delete the list if it is the only list exist 
-                <img style={{ marginLeft: "5px" }} src={warningImg} alt="warning image" />
-            </Alert>
+            <div onClick={() => setShowAlert({...showAlert , bool : false})} className='error' style={{ top: showAlert.bool ? "20px" : "-300px" }}>
+                <Error message = {showAlert.value}/>
+            </div>
             
             <div className="pageOfTasks" style={{ backgroundImage: `url(${backgroundImage})` }}>
                 <h1 style={{ color: themeColor }}>

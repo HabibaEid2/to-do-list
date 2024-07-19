@@ -39,12 +39,8 @@ a {
   background-color: var(--main-color);
   position: relative;
 }
-.parent div[role= "alert"] {
-  background-color: #c5c5c5eb;
-  color: #a41925;
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
+.parent .error {
+  width: fit-content;
   position: absolute;
   top: 20px;
   left: 50%;
@@ -59,6 +55,13 @@ a {
   -ms-transition: .3s;
   -o-transition: .3s;
   z-index: 1;
+}
+.parent div[role= "alert"] {
+  background-color: #c5c5c5eb;
+  color: #a41925;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
 }
 .parent div[role = "alert"] img {
   width: 20px;
