@@ -1,158 +1,142 @@
 import { Link } from "react-router-dom";
-import './dashboard.css'
-import { useContext, useEffect, useState } from "react";
+import './dashboard.css';
+import { useContext, useEffect, useRef, useState } from "react";
 import { contextData } from "../../context/context";
 
 export default function Dashboard() {
 
-    // states
-    let [cats , setCats] = useState([]) ; 
-    let [showDashBoard , setShowDashBoard] = useState(true) ; 
-    let [checkName ,  setCheckName] = useState(true) ; 
+    // States
+    const [categories, setCategories] = useState([]);
+    const [showDashboard, setShowDashboard] = useState(true);
+    const [isNameUnique, setIsNameUnique] = useState(true);
 
-    // context
-    let context = useContext(contextData) ; 
+    // Context
+    const context = useContext(contextData);
 
-    // normal variables
-    let showDefaultCats = true ; 
-    let catName = "Untitled list"
-    let address = window.location.pathname.slice(window.location.pathname.lastIndexOf("/") + 1).split("-").join(" ") ; 
-    let checkNameOfPrevCats ; 
+    // Refs 
+    const ulRef = useRef();
 
+    // Variables
+    let showDefaultCats = true;
+    let catName = "Untitled list";
+    const address = window.location.pathname.split("/").pop().split("-").join(" ");
+    let checkNameOfPrevCats;
+
+    console.log(address)
     // useEffects
-
     useEffect(() => {
-
-        // to show it once time not twice
         if (showDefaultCats) {
-            for(let i of context.value.data) {
-                setCats(prev =>{
-                    return [...prev , 
-                    <li onClick={choose} className = {i.name === address || (context.value.data.indexOf(i) === 0 && address === "to do list") ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
-                        <Link to= {`/to-do-list/${i.name.split(" ").join("-")}`}>
-                            <i style={{color : i.iconColor}} className= {i.icon}></i>
-                            <div className="cat-name">{i.name}</div>
-                        </Link>
-                    </li>]
-                })
-            }
+            const initialCategories = context.value.data.map((category, index) => (
+                <li 
+                    onClick={choose} 
+                    className={category.name === address || (index === 0 && address === "to do list") ? "beforeTask" : ""} 
+                    key={category.name}
+                >
+                    <Link to={`/to-do-list/${category.name.split(" ").join("-")}`}>
+                        <i style={{ color: category.iconColor }} className={category.icon}></i>
+                        <div className="cat-name">{category.name}</div>
+                    </Link>
+                </li>
+            ));
+            setCategories(initialCategories);
+            showDefaultCats = false;
         }
-        showDefaultCats = false ; 
-    } , [])
-    
-    // for loops and if functions
+    }, []);
+
     useEffect(() => {
         if (context.value.remove) {
-            setCats([]) ; 
-            for(let i of context.value.data) {
-                setCats(prev =>{
-                    return [...prev , 
-                    <li onClick={choose} className = {i.name === address ||(context.value.data.indexOf(i) === 0 &&address === "to do list")  ? "beforeTask" : ""} key={context.value.data.indexOf(i)}>
-                        <Link to= {`to-do-list/${i.name.split(" ").join("-")}`}>
-                            <i style={{color : i.iconColor}} className= {i.icon}></i>
-                            <div className="cat-name">{i.name}</div>
-                        </Link>
-                    </li>]
-                })
-            }
-            context.setValue(prev => {
-                return {...prev , remove : false} ; 
-            }) ; 
+            const updatedCategories = context.value.data.map((category, index) => (
+                <li 
+                    onClick={choose} 
+                    className={category.name === address || (index === 0 && address === "to do list") ? "beforeTask" : ""} 
+                    key={category.name}
+                >
+                    <Link to={`/to-do-list/${category.name.split(" ").join("-")}`}>
+                        <i style={{ color: category.iconColor }} className={category.icon}></i>
+                        <div className="cat-name">{category.name}</div>
+                    </Link>
+                </li>
+            ));
+            setCategories(updatedCategories);
+            context.setValue(prev => ({ ...prev, remove: false }));
         }
-    })
+    }, [context]);
 
-    // functions
+    // Functions
 
-    // create new list
-    function addNewCat(bool) {
-        
-        // bool for fully created or not
-        if(!bool) {
-            setCats(prev => { 
-                return [...prev , 
-                <li onClick={choose} key={prev.length + 1}>
+    // Create new category
+    const addNewCategory = (isComplete) => {
+        if (!isComplete) {
+            setCategories(prev => [
+                ...prev, 
+                <li onClick={choose} key={`input-${prev.length + 1}`}>
                     <div className="create-cat-div">
-                        <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
+                        <i style={{ color: "rgb(203 211 178)" }} className="fa-solid fa-list-check"></i>
                         <input 
-                        onChange={(e) => {
-                            checkNameOfPrevCats = context.value.data.findIndex((ele) => ele.name === e.target.value) ;
-                            if (checkNameOfPrevCats === -1) setCheckName(true) ;
-                            else setCheckName(false) ; 
-                        }}
-
-                        onKeyDown={(e) => {
-                            if(e.code === "Enter"){
-                                checkNameOfPrevCats = context.value.data.findIndex((ele) => ele.name === e.target.value) ;
-                                if (checkNameOfPrevCats === -1 && e.target.value.length >= 1) {
-                                    context.setValue(prev => {
-                                        return {data : [...prev.data, {
-                                        name : `${e.target.value}` , 
-                                        icon : "fa-solid fa-list-check" , 
-                                        iconColor : "rgb(203 211 178)" ,
-                                        tasks : []
-                                        }] , remove : false}
-                                    })
-                                    catName = e.target.value ; 
-                                    addNewCat(true) ;
-                                    setCheckName(true) ;  
+                            onChange={(e) => {
+                                checkNameOfPrevCats = context.value.data.findIndex((ele) => ele.name === e.target.value);
+                                setIsNameUnique(checkNameOfPrevCats === -1);
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.code === "Enter" && isNameUnique && e.target.value.length >= 1) {
+                                    context.setValue(prev => ({
+                                        data: [...prev.data, {
+                                            name: e.target.value, 
+                                            icon: "fa-solid fa-list-check", 
+                                            iconColor: "rgb(203 211 178)",
+                                            tasks: []
+                                        }],
+                                        remove: false
+                                    }));
+                                    catName = e.target.value;
+                                    addNewCategory(true);
                                 }
-                                else setCheckName(false)
-                            }
-                        }}
-                        autoFocus 
-                        defaultValue={'Untitled list'}
+                            }}
+                            autoFocus 
+                            defaultValue={'Untitled list'}
                         />
                     </div>
-                    {!checkName && <div className="check-name" style={{color : "red"}}>* name already exist.</div>}
-                
-                </li>]
-            })
-        }
-        else {
-            setCats(prev => { 
-                prev.splice(prev.length -1 , 1 , <li onClick={choose} key={prev.length + 1}>
-                    <Link to = {`to-do-list/${catName.split(" ").join("-")}`}>
-                        <i style={{color : "rgb(203 211 178)"}} className="fa-solid fa-list-check"></i>
-                        <div>{catName}</div>
-                    </Link>
-                </li>)
-                return prev ; 
-            })
-            setCheckName(true) ; 
-        }
-    }
-
-    // choose a list to style it
-    function choose(e) {
-        
-        let lis = document.querySelector("ul.cats-list").querySelectorAll("li") ; 
-
-        for(let i of lis) i.classList.remove("beforeTask") ; 
-
-        if(e.target.parentElement.tagName.toLowerCase() === "a") {
-            e.target.parentElement.parentElement.classList.add("beforeTask")
-        }
-
-        else if (e.target.parentElement.tagName.toLowerCase() === "li") {
-            e.target.parentElement.classList.add("beforeTask")
-        }
-
-        else {
-            e.target.classList.add("beforeTask")
+                    {!isNameUnique && <div className="check-name" style={{ color: "red" }}>* name already exists.</div>}
+                </li>
+            ]);
+        } else {
+            setCategories(prev => {
+                const updated = [...prev];
+                updated.splice(prev.length - 1, 1, 
+                    <li onClick={choose} key={`category-${prev.length + 1}`}>
+                        <Link to={`/to-do-list/${catName.split(" ").join("-")}`}>
+                            <i style={{ color: "rgb(203 211 178)" }} className="fa-solid fa-list-check"></i>
+                            <div>{catName}</div>
+                        </Link>
+                    </li>
+                );
+                return updated;
+            });
+            setIsNameUnique(true);
         }
     }
+
+    // Choose a list to style it
+    const choose = (e) => {
+        const lis = ulRef.current.querySelectorAll("li");
+        lis.forEach(li => li.classList.remove("beforeTask"));
+
+        const target = e.target.closest("li");
+        target.classList.add("beforeTask");
+    }
+
     return (
-        <div style={{marginLeft : showDashBoard ? "0" : "-237px"}} className="dashboard">
-            <ul className="cats-list">
-                {cats}
+        <div style={{ marginLeft: showDashboard ? "0" : "-237px" }} className="dashboard">
+            <ul ref={ulRef} className="cats-list">
+                {categories}
             </ul>
-            <div className="create-new-cat" onClick={() => addNewCat(false)} >
+            <div className="create-new-cat" onClick={() => addNewCategory(false)}>
                 <i className="fa-solid fa-plus"></i>
                 <button>New Category</button>
             </div>
-            <div onClick={() => setShowDashBoard(!showDashBoard)} className="showDashBoard">
+            <div onClick={() => setShowDashboard(!showDashboard)} className="showDashBoard">
                 <i className="fa-solid fa-right-left"></i>
             </div>
         </div>
-    )
+    );
 }
