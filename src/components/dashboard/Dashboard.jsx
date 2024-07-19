@@ -37,13 +37,14 @@ export default function Dashboard() {
 
     // useEffects
 
+    console.log(address.length)
     // to show default cats only one time
     useEffect(() => {
         if (showDefaultCats) {
             const initialCategories = context.value.data.map((category, index) => (
                 <li 
                     onClick={choose} 
-                    className={category.name === address || (index === 0 && address === "to do list") ? "beforeTask" : ""} 
+                    className={category.name === address || (index === 0 && (address === "to do list" || address.length === 0) ) ? "beforeTask" : ""} 
                     key={category.name}
                 >
                     <Link to={`/to-do-list/${category.name.split(" ").join("-")}`}>
