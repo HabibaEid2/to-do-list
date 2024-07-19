@@ -18,7 +18,7 @@ function App() {
     <Dashboard/>
     <Routes>
       <Route path={'/to-do-list'}>
-        <Route key={-1} path={'/to-do-list'} element = {<PageOfTasks page = {context.value.data[0].name}/>}/>
+        <Route key={-1} path={''} element = {<PageOfTasks page = {context.value.data[0].name}/>}/>
         {routesA}
       </Route>
     </Routes>
